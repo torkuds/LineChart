@@ -15,11 +15,9 @@ import android.view.View;
 
 public class LineChart extends View {
 
-
-    Paint axisPaint = new Paint();
-
-    XAxis xAxis = new XAxis();
-    YAxis yAxis = new YAxis();
+    XAxis xAxis;
+    YAxis yAxis;
+    Line line;
 
     public LineChart(Context context) {
         super(context);
@@ -34,14 +32,29 @@ public class LineChart extends View {
     }
 
     @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int measuredWidth = getMeasuredWidth();
+        int measuredHeight = getMeasuredHeight();
+        xAxis = new XAxis(measuredWidth, measuredHeight);
+        yAxis = new YAxis(measuredWidth, measuredHeight);
+        line = new Line(measuredWidth, measuredHeight);
+        line.setValue(1, 4);
+        line.setValue(2, 1);
+        line.setValue(3, 3);
+        line.setValue(4, 2);
+        line.setValue(5, 6);
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        yAxis.setLocation(0, 0, 0, getHeight());
         yAxis.drawSelf(canvas);
 
-        xAxis.setLocation(0, getHeight(), getWidth(), getHeight());
         xAxis.drawSelf(canvas);
+
+        line.drawSelf(canvas);
 
     }
 }

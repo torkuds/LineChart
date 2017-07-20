@@ -12,36 +12,22 @@ import android.graphics.Paint;
 
 public abstract class Axis {
 
-    float startX;
-    float startY;
-    float endX;
-    float endY;
+    protected int width;
+    protected int height;
 
     protected Paint paint = new Paint();
 
-    //间隔
-    protected float interval;
-
-    public Axis() {
+    public Axis(int width, int height) {
         init();
+        this.width = width;
+        this.height = height;
     }
 
     private void init(){
         paint.setColor(Color.BLACK);
-        paint.setStrokeWidth(5);
+        paint.setStrokeWidth(2);
     }
 
     public abstract void drawSelf(Canvas canvas);
 
-    public float getStartX() {
-        return startX;
-    }
-
-    public void setLocation(float startX, float startY, float endX, float endY){
-        this.startX = startX;
-        this.startY = startY;
-        this.endX = endX;
-        this.endY = endY;
-
-    }
 }

@@ -26,6 +26,7 @@ public abstract class Axis {
     private void init(){
         paint.setColor(Color.BLACK);
         paint.setStrokeWidth(2);
+        paint.setTextSize(30);
     }
 
     public abstract void drawSelf(Canvas canvas);

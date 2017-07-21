@@ -35,7 +35,6 @@ public class YAxis extends Axis {
      */
     private void drawScale(Canvas canvas){
         for (int i = 1; i <= count; i++){
-            Log.i("画刻度", i + "<--");
             paint.setStrokeWidth(2);
             //画刻度
             canvas.drawLine(0, height - (interval * i), scale, height - (interval * i), paint);

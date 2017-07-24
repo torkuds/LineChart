@@ -24,7 +24,7 @@ public class YAxis extends Axis {
     @Override
     public void drawSelf(Canvas canvas) {
 
-        canvas.drawLine(scale, 0, scale, height, paint);
+//        canvas.drawLine(scale, 0, scale, height, paint);
 
         drawScale(canvas);
     }
@@ -37,7 +37,7 @@ public class YAxis extends Axis {
         for (int i = 1; i <= count; i++){
             paint.setStrokeWidth(2);
             //画刻度
-            canvas.drawLine(0, height - (interval * i), scale, height - (interval * i), paint);
+//            canvas.drawLine(0, height - (interval * i), scale, height - (interval * i), paint);
             //画格子线
             paint.setStrokeWidth(1);
             canvas.drawLine(0, height - (interval * i), width, height - (interval * i), paint);

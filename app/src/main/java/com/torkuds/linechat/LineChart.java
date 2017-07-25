@@ -35,6 +35,8 @@ public class LineChart extends View {
 
     private int yInterval = 150;  //y轴刻度长度
 
+    private int yStepValue;     //y轴一个刻度表示的值
+
     private List<Integer> datas;    //折线数据集合
 
     public LineChart(Context context) {
@@ -62,8 +64,9 @@ public class LineChart extends View {
         int measuredHeight = getMeasuredHeight();
         xAxis = new XAxis(measuredWidth, measuredHeight, xCount);
         xAxis.setAdapter(new MonthAdapter(7));
-        yAxis = new YAxis(measuredWidth, measuredHeight);
-        line = new Line(measuredWidth, measuredHeight);
+        yAxis = new YAxis(measuredWidth, measuredHeight, yCount);
+        yAxis.setBottomHeight(xAxis.getBottomHeight());
+        line = new Line(measuredWidth, measuredHeight, yStepValue, xInterval, yInterval, xAxis.getBottomHeight());
 //        line.setValue(1, 4);
 //        line.setValue(2, 1);
 //        line.setValue(3, 3);
@@ -141,5 +144,18 @@ public class LineChart extends View {
         this.datas = datas;
         xCount = datas != null ? datas.size() : 0;
         invalidate();
+    }
+
+    public void setValues(int yInterval, int yStepValue, int yCount, List<Integer> datas){
+        this.yInterval = yInterval;
+        this.yStepValue = yStepValue;
+        this.yCount = yCount;
+        this.datas = datas;
+        xCount = datas != null ? datas.size() : 0;
+        invalidate();
+    }
+
+    public int getBottomHeight(){
+        return xAxis.getBottomHeight();
     }
 }

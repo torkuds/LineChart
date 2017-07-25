@@ -11,14 +11,17 @@ import android.util.Log;
 
 public class YAxis extends Axis {
 
-    private int count = 6;
+    private int count = 5;
 
     private int interval = 150; //间隔长度
 
     private float scale = 20;
 
-    public YAxis(int width, int height) {
+    private int realHeight;
+
+    public YAxis(int width, int height, int count) {
         super(width, height);
+        this.count = count;
     }
 
     @Override
@@ -40,8 +43,18 @@ public class YAxis extends Axis {
 //            canvas.drawLine(0, height - (interval * i), scale, height - (interval * i), paint);
             //画格子线
             paint.setStrokeWidth(1);
-            canvas.drawLine(0, height - (interval * i), width, height - (interval * i), paint);
+            canvas.drawLine(0, realHeight - (interval * i), width, realHeight - (interval * i), paint);
         }
+    }
+
+    public void setDatas(int interval, int count){
+        this.interval = interval;
+        this.count = count;
+    }
+
+    public void setBottomHeight(int bottomHeight){
+        realHeight = height - bottomHeight;
+        interval = (realHeight - 100) / count;
     }
 
 }

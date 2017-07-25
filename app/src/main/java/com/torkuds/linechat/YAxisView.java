@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -17,11 +18,17 @@ import android.view.View;
 
 public class YAxisView extends View {
 
-    private int count = 6;
+    private int count = 5;
+
+    private int max;
+
+    private int min;
+
+    private int stepValue;
 
     private int interval = 150;   //刻度长度
 
-    private int bottomMargin = 10;    //底部边距
+    private int bottom = 10;    //底部边距
 
     private float scale = 20;   //左侧
 
@@ -30,6 +37,10 @@ public class YAxisView extends View {
     private Paint paint;
 
     private String label = "1000";
+
+    private int realHeight;
+
+    private OnMeasureSuccessListener listener;
 
     public YAxisView(Context context) {
         this(context, null, 0);
@@ -48,7 +59,17 @@ public class YAxisView extends View {
         paint = new Paint();
         paint.setColor(Color.BLACK);
         paint.setTextSize(30);
-        paint.getTextBounds(label, 0, label.length(), rect);
+
+    }
+
+    public void setDatas(int max, int count){
+        if (max > min && min >= 0 && count > 0){
+            this.max = max;
+            this.count = count;
+            stepValue = max / count;
+            paint.getTextBounds(String.valueOf(max), 0, String.valueOf(max).length(), rect);
+            invalidate();
+        }
     }
 
     @Override
@@ -58,6 +79,15 @@ public class YAxisView extends View {
         int width = measureDimension(2000, widthMeasureSpec);
         int height = measureDimension(2000, heightMeasureSpec);
         setMeasuredDimension(width, height);
+
+        realHeight = getMeasuredHeight() - rect.height();
+        interval = (realHeight - 100) / count;
+
+        if (listener != null){
+            listener.onMeasureSucceess();
+        }
+
+        Log.i("折线", "interval:" + interval + ",stepValue:" + stepValue + "<--y轴");
     }
 
     @Override
@@ -69,7 +99,7 @@ public class YAxisView extends View {
         paint.setColor(Color.BLACK);
         paint.setStrokeWidth(3);
 
-        canvas.drawLine(getMeasuredWidth(), 0, getMeasuredWidth(), getMeasuredHeight(), paint);
+        canvas.drawLine(getMeasuredWidth(), 0, getMeasuredWidth(), realHeight, paint);
 //        canvas.drawLine(scale, 0, scale, getMeasuredHeight(), paint);
 
         //画刻度
@@ -86,13 +116,13 @@ public class YAxisView extends View {
         for (int i = 1; i <= count; i++){
             paint.setStrokeWidth(2);
             //画刻度
-            canvas.drawLine(getMeasuredWidth(), getMeasuredHeight() - (interval * i), getMeasuredWidth() - scale, getMeasuredHeight() - (interval * i), paint);
+            canvas.drawLine(getMeasuredWidth(), realHeight - (interval * i), getMeasuredWidth() - scale, realHeight - (interval * i), paint);
             //画格子线
 //            paint.setStrokeWidth(1);
 //            canvas.drawLine(0, height - (interval * i), width, height - (interval * i), paint);
             //画标签
             paint.setTextSize(30);
-            canvas.drawText(label, getMeasuredWidth() - scale - rect.width(), getMeasuredHeight() - (interval * i) + (rect.height() / 2), paint);
+            canvas.drawText(stepValue * i + "", getMeasuredWidth() - scale - rect.width(), realHeight - (interval * i) + (rect.height() / 2), paint);
         }
     }
 
@@ -111,5 +141,25 @@ public class YAxisView extends View {
             }
         }
         return result;
+    }
+
+    public int getStepValue() {
+        return stepValue;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public int getInterval() {
+        return interval;
+    }
+
+    public interface OnMeasureSuccessListener{
+        void onMeasureSucceess();
+    }
+
+    public void setOnMeasureSuccessListener(OnMeasureSuccessListener listener){
+        this.listener = listener;
     }
 }

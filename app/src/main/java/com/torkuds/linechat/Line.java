@@ -3,6 +3,7 @@ package com.torkuds.linechat;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -21,7 +22,15 @@ public class Line {
     private int width;
     private int height;
 
-    private int interval = 150;
+    private int xInterval = 150;
+
+    private int yInterval = 150;
+
+    private float stepValue;
+
+    private int bottomHeight;   //底部标签占得高度
+
+    private float realHeight;     //除去底部标签，顶部到x轴的高度
 
     private List<Integer> datas;    //数据集合
 
@@ -32,10 +41,16 @@ public class Line {
     Map<Integer, Integer> values = new LinkedHashMap<>();
     Map.Entry<Integer, Integer> lastEntry;
 
-    public Line(int width, int height) {
+    public Line(int width, int height, int stepValue, int xInterval, int yInterval, int bottom) {
         this.width = width;
         this.height = height;
+        this.stepValue = stepValue;
+        this.xInterval = xInterval;
+        this.yInterval = yInterval;
+        this.bottomHeight = bottom;
+        realHeight = height - bottomHeight;
         paint.setColor(Color.RED);
+        paint.setAntiAlias(true);
     }
 
     public void setValue(int key, int value){
@@ -62,12 +77,14 @@ public class Line {
 //            lastEntry = entry;
 //        }
 
+        Log.i("折线", "yInterval:" + yInterval + ",stepValue:" + stepValue + "<--line");
+
         if (datas != null && datas.size() > 0){
             lastValue = -1;
             for (int i = 0; i < datas.size(); i++){
-                canvas.drawCircle(interval * (i + 1), height - (datas.get(i) * interval), 10, paint);
+                canvas.drawCircle(xInterval * (i + 1), realHeight - (datas.get(i) / stepValue * yInterval), 10, paint);
                 if (lastValue >= 0){
-                    canvas.drawLine(interval * i, height - (datas.get(i - 1) * interval), interval * (i + 1), height - (datas.get(i) * interval), paint);
+                    canvas.drawLine(xInterval * i, realHeight - (datas.get(i - 1) / stepValue * yInterval), xInterval * (i + 1), realHeight - (datas.get(i) / stepValue * yInterval), paint);
                 }
                 lastValue = datas.get(i);
             }
@@ -76,16 +93,5 @@ public class Line {
 
     public void setDatas(List<Integer> datas) {
         this.datas = datas;
-
-//        if (datas != null && datas.size() > 0){
-//            lastValue = -1;
-//            for (int i = 0; i < datas.size(); i++){
-//                canvas.drawCircle(interval * (i + 1), height - (datas.get(i) * interval), 10, paint);
-//                if (lastValue >= 0){
-//                    canvas.drawLine(interval * i, height - (datas.get(i - 1) * interval), interval * (i + 1), height - (datas.get(i) * interval), paint);
-//                }
-//                lastValue = datas.get(i);
-//            }
-//        }
     }
 }

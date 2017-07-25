@@ -8,13 +8,16 @@
     tools:context="com.torkuds.linechat.MainActivity">
 
     <com.torkuds.linechat.YAxisView
+        android:id="@+id/yAxis"
         android:layout_width="50dp"
-        android:layout_height="350dp"/>
+        android:layout_height="350dp"
+        android:visibility="gone"/>
 
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        android:visibility="gone">
 
         <com.torkuds.linechat.LineChart
             android:id="@+id/lineChart"
@@ -22,5 +25,10 @@
             android:layout_height="350dp"/>
 
     </HorizontalScrollView>
+
+    <com.torkuds.linechat.LineChartView
+        android:id="@+id/lineChartView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

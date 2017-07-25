@@ -64,4 +64,8 @@ public class XAxis extends Axis {
     public void setAdapter(MonthAdapter adapter) {
         this.adapter = adapter;
     }
+
+    public int getBottomHeight(){
+        return rect.height();
+    }
 }

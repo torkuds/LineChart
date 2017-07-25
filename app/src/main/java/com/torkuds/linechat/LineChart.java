@@ -56,7 +56,7 @@ public class LineChart extends View {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
         //计算view的宽高
-        int width = measureDimension(xCount * xInterval, widthMeasureSpec);
+        int width = measureDimension(xCount * xInterval + 150, widthMeasureSpec);
         int height = measureDimension(2000, heightMeasureSpec);
         setMeasuredDimension(width, height);
 

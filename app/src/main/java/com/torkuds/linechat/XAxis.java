@@ -22,6 +22,8 @@ public class XAxis extends Axis {
 
     private float scale = 20;
 
+    private int textMargin = 10;
+
     private Rect rect = new Rect(); //文字区域
 
     private String label = "7/21";
@@ -40,7 +42,7 @@ public class XAxis extends Axis {
 
     @Override
     public void drawSelf(Canvas canvas) {
-        canvas.drawLine(0, height - rect.height(), width, height - rect.height(), paint);
+        canvas.drawLine(0, height - rect.height() - textMargin, width, height - rect.height() - textMargin, paint);
         drawScale(canvas);
     }
 
@@ -51,7 +53,7 @@ public class XAxis extends Axis {
     private void drawScale(Canvas canvas){
         for (int i = 1; i <= count; i++){
             paint.setStrokeWidth(2);
-            canvas.drawLine(interval * i, height - rect.height(), interval * i, height - rect.height() - scale, paint);
+            canvas.drawLine(interval * i, height - rect.height() - textMargin, interval * i, height - rect.height() - textMargin - scale, paint);
             if (adapter != null)
                 canvas.drawText(adapter.getLabel(i), interval * i - rect.width() / 2, height, paint);
         }
@@ -66,6 +68,6 @@ public class XAxis extends Axis {
     }
 
     public int getBottomHeight(){
-        return rect.height();
+        return rect.height() + textMargin;
     }
 }

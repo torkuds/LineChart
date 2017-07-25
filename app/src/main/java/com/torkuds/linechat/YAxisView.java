@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -80,7 +81,7 @@ public class YAxisView extends View {
         int height = measureDimension(2000, heightMeasureSpec);
         setMeasuredDimension(width, height);
 
-        realHeight = getMeasuredHeight() - rect.height();
+        realHeight = getMeasuredHeight() - rect.height() - 10;
         interval = (realHeight - 100) / count;
 
         if (listener != null){
